@@ -17,6 +17,5 @@ class TestCompose(unittest.TestCase):
 		self.assertEqual(result.shape, (11, 3, 4, 4))
 
 
-
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,8 @@
+from typing import Type
+
 from graph.node import Node
-from op.add import Add  # TODO: Fix circular import.
 from value.differentiable import Differentiable
-from value.value import Value
+from value.value_class import Value
 
 # Examples of tensors include:
 # - Error signals (i.e. tangent vectors)
@@ -12,7 +13,7 @@ class Tensor(Differentiable):
 		self.data = data
 
 
-	def update(self, direction: Type[Tensor]):
+	def update(self, direction: "Tensor"):
 		self.data += direction.data
 
 
@@ -27,3 +28,8 @@ class Tensor(Differentiable):
 
 	def __matmul__(self, tensor):
 		return Tensor(self.data @ tensor.data)
+
+
+	def __add__(self, tensor: "Tensor"):
+		from op.add import Add
+		return Add(self, tensor)
