@@ -1,22 +1,24 @@
 from op import Op
 import numpy as np
+from value.tensor import Tensor
 import itertools
 
+from graph.node import Node
+
 class Add(Op):
-	def apply(self, *xs):
-		return np.sum(xs)
+
+	def apply(*xs):
+		Add._validate_input(*xs)
+
+		result = np.zeros(xs[0].shape)
+		for x in xs:
+			result += x.data
+		return Tensor(result)
 
 
 	# TODO: Consider broadcasting.
-	def derivative(self, *xs):
-		# TODO: Write error.
-		if len(xs) < 1:
-			return 
-
-		# TODO: Allow boradcasting. Write error.
-		for x in xs:
-			if x.shape != xs[0].shape:
-				return
+	def derivative(*xs):
+		Add._validate_input(*xs)
 
 		result = []
 		for x in xs:
@@ -24,11 +26,17 @@ class Add(Op):
 			for idx in itertools.product(*[range(i) for i in x.shape]):
 				x_deriv[idx][idx] = 1.0
 			result.append(x_deriv)
-		return result
+		return Tensor(result)
 
 
-	def backwards(self, *xs):
-		pass
+	@staticmethod
+	def _validate_input(*xs):
+		if len(xs) < 1:
+			raise ValueError("Add must be called with at least one Tensor argument.")
 
-add = Add()
-print(add.derivative(np.ones([2,2]), np.ones([2,2]),))
+		# TODO: Allow boradcasting.
+		for x in xs:
+			if x.shape != xs[0].shape:
+				raise ValueError("Broadcasting not yet supported. All tensor arguments to add must have the same shape.")
+
+		return None
