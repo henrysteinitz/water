@@ -4,8 +4,7 @@ from graph.node import Node
 
 class Value:
 
-	def __init__(self, data=None, id=None):
-		self.data = data
+	def __init__(self, id=None):
 		self.node = Node(value=self, op=None, operands=None, id=None)
 		self.id = id
 

@@ -1,9 +1,10 @@
-from op import Op
 import numpy as np
-from value.tensor import Tensor
 import itertools
 
+from op.op_class import Op
 from graph.node import Node
+from value.tensor import Tensor
+
 
 class Add(Op):
 

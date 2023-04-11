@@ -1,5 +1,7 @@
 from graph.node import Node
 
+# Ops implement methods that are accumulated during a graph traversal algorithm. An example 
+# of a graph traversal alorithm is reverse-mode differentiation also known as backpropagation..
 class Op:
 
 	def __new__(cls, *xs):
