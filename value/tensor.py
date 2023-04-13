@@ -8,8 +8,8 @@ from value.value_class import Value
 # - Error signals (i.e. tangent vectors)
 class Tensor(Differentiable):
 
-	def __init__(self, data, id=None):
-		super().__init__(id)
+	def __init__(self, data, *args, **kwargs):
+		super().__init__(*args, **kwargs)
 		self.data = data
 
 
@@ -19,6 +19,11 @@ class Tensor(Differentiable):
 
 	def reshape(self, shape: list):
 		return Tensor(self.data.reshape(shape))
+
+
+	@property
+	def intial_derivative(self):
+		return Identity(half_shape=self.shape)
 
 
 	@property	
@@ -33,3 +38,13 @@ class Tensor(Differentiable):
 	def __add__(self, tensor: "Tensor"):
 		from op.add import Add
 		return Add(self, tensor)
+
+
+class Identity(Tensor):
+
+	def __init__(self, half_shape, *args, **kwargs):
+		data = np.zeros(half_shape + h	alf_shape)
+		for idx in itertools.product(*[range(i) for i in half_shape]):
+			data[idx][idx] = 1.0
+
+		super().__init__(data, *args, **kwargs)

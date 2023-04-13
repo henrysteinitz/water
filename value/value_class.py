@@ -1,13 +1,18 @@
 from typing import Type
-from graph.node import Node
 
 
 class Value:
 
-	def __init__(self, id=None):
-		self.node = Node(value=self, op=None, operands=None, id=None)
+	def __init__(self, id=None, graph=None):
+		from graph.node import Node
+		self.node = Node(value=self, op=None, operands=None, id=None, graph=graph)
 		self.id = id
 
+
+	@property
+	def graph(self):
+		return self.node.graph
+	
 
 	@property
 	def op(self):

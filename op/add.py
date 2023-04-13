@@ -8,7 +8,7 @@ from value.tensor import Tensor
 
 class Add(Op):
 
-	def apply(*xs):
+	def apply(*xs: list[Tensor]):
 		Add._validate_input(*xs)
 
 		result = np.zeros(xs[0].shape)
@@ -18,7 +18,7 @@ class Add(Op):
 
 
 	# TODO: Consider broadcasting.
-	def derivative(*xs):
+	def derivative(*xs: list[Tensor]):
 		Add._validate_input(*xs)
 
 		result = []
@@ -26,12 +26,12 @@ class Add(Op):
 			x_deriv = np.zeros([*x.shape, *x.shape])
 			for idx in itertools.product(*[range(i) for i in x.shape]):
 				x_deriv[idx][idx] = 1.0
-			result.append(x_deriv)
-		return Tensor(result)
+			result.append(Tensor(x_deriv))
+		return result
 
 
 	@staticmethod
-	def _validate_input(*xs):
+	def _validate_input(*xs: list[Tensor]):
 		if len(xs) < 1:
 			raise ValueError("Add must be called with at least one Tensor argument.")
 
