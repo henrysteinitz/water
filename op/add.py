@@ -3,7 +3,7 @@ import itertools
 
 from op.op_class import Op
 from graph.node import Node
-from value.tensor import Tensor
+from value.tensor import Tensor, Identity
 
 
 class Add(Op):
@@ -21,13 +21,7 @@ class Add(Op):
 	def derivative(*xs: list[Tensor]):
 		Add._validate_input(*xs)
 
-		result = []
-		for x in xs:
-			x_deriv = np.zeros([*x.shape, *x.shape])
-			for idx in itertools.product(*[range(i) for i in x.shape]):
-				x_deriv[idx][idx] = 1.0
-			result.append(Tensor(x_deriv))
-		return result
+		return [Identity(half_shape=x.shape) for x in xs]
 
 
 	@staticmethod

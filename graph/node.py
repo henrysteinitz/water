@@ -7,7 +7,6 @@ from value.value_class import Value
 class Node:
 
 	def __init__(self, value: Type[Value], op: Type["Op"], operands: list['Node'], id=None, graph=None):
-		print(id)
 		self.value = value
 		self.op = op
 		self.operands = operands
