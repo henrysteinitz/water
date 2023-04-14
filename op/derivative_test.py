@@ -11,10 +11,9 @@ class TestMatMul(unittest.TestCase):
 		A = Tensor(np.ones([3, 3]), id="A")
 		B = Tensor(np.ones([3, 3]), id="B")
 		C = A + B
-		print(C.node.graph.id_list)
 		result = Derivative(C, A)
 
-		#assert_array_equal(result.data, Identity(half_shape=result.shape))
+		assert_array_equal(result.data, Identity(half_shape=C.shape).data)
 
 
 if __name__ == '__main__':
