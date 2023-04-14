@@ -44,5 +44,4 @@ class Node:
 
 
 	def initialize_derivative(self):
-		print(self.value.initial_derivative)
 		self.derivative = self.value.initial_derivative
