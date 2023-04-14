@@ -26,6 +26,8 @@ class MatMul(Op):
 				for i_prime in range(dB.shape[0]):
 					dB[i_prime][j][i][j] = A.data[i][i_prime]
 
+		# TODO: This is just a broadcasted A^T & B^T lol. Refactor 
+		# into simple op.apply calls.
 		return Tensor(dA), Tensor(dB)
 
 
