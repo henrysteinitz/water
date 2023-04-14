@@ -1,7 +1,7 @@
 from math import prod
 import numpy as np
 from typing import Type
-from tensor import Tensor
+from  value.tensor import Tensor
 
 
 # A slight generalization of matrix multiplication for higher rank tensors 

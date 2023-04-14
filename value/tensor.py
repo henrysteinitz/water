@@ -1,3 +1,5 @@
+import itertools
+import numpy as np
 from typing import Type
 
 from graph.node import Node
@@ -22,7 +24,7 @@ class Tensor(Differentiable):
 
 
 	@property
-	def intial_derivative(self):
+	def initial_derivative(self):
 		return Identity(half_shape=self.shape)
 
 
@@ -43,7 +45,7 @@ class Tensor(Differentiable):
 class Identity(Tensor):
 
 	def __init__(self, half_shape, *args, **kwargs):
-		data = np.zeros(half_shape + h	alf_shape)
+		data = np.zeros(half_shape + half_shape)
 		for idx in itertools.product(*[range(i) for i in half_shape]):
 			data[idx][idx] = 1.0
 

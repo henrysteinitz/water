@@ -1,6 +1,8 @@
 from typing import Type
 
+from op.op_class import Op
 from value.compose import compose
+from value.differentiable import Differentiable
 
 class Derivative(Op):
 
@@ -12,18 +14,28 @@ class Derivative(Op):
 		# need to store something that identifies this traversal in Node.
 		graph.clear_all_derivatives()
 
-		self.dx.node.intialize_derivative()
-		for i in range(self.dx.id_list_idx + 1, self.dy.id_list_idx + 1):
-			node = graph.id_list[idx]
-			derivatives = node.op.derivative([nd.value for nd in self.operands])
+		dx.node.initialize_derivative()
+		print("DERIVATIVE ID CHECK {}".format(dx.node.id))
+		print(dx.node.derivative)
+		for i in range(dx.node.id_list_idx + 1, dy.node.id_list_idx + 1):
+			node = graph.node_map[graph.id_list[i]]
+
+			if node.op is None:
+				continue
+			
+			derivatives = node.op.derivative(*[nd.value for nd in node.operands])
 			for i in range(len(node.operands)):
 				operand = node.operands[i]
+				print(operand.id)
+				print(operand.derivative)
 				if operand.derivative is not None:
 					# TODO: Compose should be build from matmul and a reshape Op. Compositions should happen
 					# on a separate graph, which can be accessed by Derivative.deriviative to compute nth order 
 					# derivatives on the original graph.
-					composed_deriviatve = compose(operand.derivative, derivatives[i], shared_shape=operand.shape)
-					node.accumlate_derivative(composed_deriviatve)
+					composed_deriviatve = compose(operand.derivative, derivatives[i], shared_shape=operand.value.shape)
+					node.accumulate_derivative(composed_deriviatve)
+					print(node.derivative.data)
+		
 		return dy.node.derivative 
 
 

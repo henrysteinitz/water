@@ -2,16 +2,16 @@ from typing import Type
 
 from graph.graph_class import Graph
 from value.value_class import Value
-from value.tensor import Identity
 
 
 class Node:
 
 	def __init__(self, value: Type[Value], op: Type["Op"], operands: list['Node'], id=None, graph=None):
+		print(id)
 		self.value = value
 		self.op = op
 		self.operands = operands
-		self.id = id
+		self.id = id or self.value.id
 		self.derivative = None
 		self.id_list_idx = None
 
@@ -45,4 +45,5 @@ class Node:
 
 
 	def initialize_derivative(self):
+		print(self.value.initial_derivative)
 		self.derivative = self.value.initial_derivative

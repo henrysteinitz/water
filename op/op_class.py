@@ -6,7 +6,7 @@ class Op:
 
 	def __new__(cls, *xs):
 		y = cls.apply(*xs)
-		node = Node(y, cls, [x.node for x in xs])
+		node = Node(y, cls, [x.node for x in xs], id=y.id)
 		y.node = node
 		return y
 

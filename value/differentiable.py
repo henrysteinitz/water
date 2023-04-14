@@ -12,6 +12,6 @@ class Differentiable(Value):
 			"For points in a smooth manifold, this is the exponential map"
 		)
 
-
-	def initial_derivative():
+	@property
+	def initial_derivative(self):
 		pass
